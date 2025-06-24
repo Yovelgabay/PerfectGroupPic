@@ -1,7 +1,7 @@
 import React from "react";
 import { X, MessageCircle, Mail, Copy, Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ShareOptions({ session, onClose }) {

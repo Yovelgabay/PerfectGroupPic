@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { createPageUrl } from "@/utils";
-import { PhotoSession } from "@/entities/PhotoSession";
-import { User } from "@/entities/User";
+import { createPageUrl } from "../utils";
+import { PhotoSession } from "../entities/PhotoSession";
+import { User } from "../entities/User";
 import { Camera, Clock, Users, Sparkles, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "../components/ui/button";
+import { Card, CardContent } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 

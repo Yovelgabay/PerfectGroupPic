@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Images, Scissors, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../ui/button';
 import LassoTool from './LassoTool';
 
 const FaceCrop = ({ face, baseFaceCoords, onClick }) => {

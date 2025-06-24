@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { createPageUrl } from "@/utils";
-import { PhotoSession } from "@/entities/PhotoSession";
-import { User } from "@/entities/User";
+import { createPageUrl } from "../utils";
+import { PhotoSession } from "../entities/PhotoSession";
+import { User } from "../entities/User";
 import { Camera, Sparkles, Users, Zap, Heart, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "../components/ui/button";
+import { Card, CardContent } from "../components/ui/card";
 import { motion } from "framer-motion";
 
 export default function Home() {

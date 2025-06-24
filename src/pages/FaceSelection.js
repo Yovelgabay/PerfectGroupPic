@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createPageUrl } from "@/utils";
-import { PhotoSession } from "@/entities/PhotoSession";
+import { createPageUrl } from "../utils";
+import { PhotoSession } from "../entities/PhotoSession";
 import { Users, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "../components/ui/button";
+import { Card, CardContent } from "../components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 
 import ProcessingOverlay from '../components/faces/ProcessingOverlay';

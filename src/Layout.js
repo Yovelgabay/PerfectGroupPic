@@ -1,6 +1,6 @@
 import React from "react";
 import {Link, useLocation} from "react-router-dom";
-import {createPageUrl} from "@/utils";
+import {createPageUrl} from "./utils";
 import {Camera, Users, Sparkles, User, Home} from "lucide-react";
 
 export default function Layout({children, currentPageName}) {

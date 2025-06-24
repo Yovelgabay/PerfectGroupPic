@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useNavigate} from "react-router-dom";
-import {PhotoSession} from "@/entities/PhotoSession";
-import {createPageUrl} from "@/utils";
-import {Button} from "@/components/ui/button";
-import {Card, CardContent} from "@/components/ui/card";
+import {PhotoSession} from "../entities/PhotoSession";
+import {createPageUrl} from "../utils";
+import {Button} from "../components/ui/button";
+import {Card, CardContent} from "../components/ui/card";
 import {ArrowRight, Edit, Sparkles, Plus} from "lucide-react";
 import AdjustableBox from '../components/faces/AdjustableBox';
 import ProcessingOverlay from "../components/faces/ProcessingOverlay";

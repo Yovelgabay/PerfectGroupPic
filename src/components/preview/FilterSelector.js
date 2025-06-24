@@ -1,6 +1,6 @@
 import React from "react";
 import { Palette } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { motion } from "framer-motion";
 
 export default function FilterSelector({ selectedFilter, onFilterSelect }) {

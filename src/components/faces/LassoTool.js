@@ -1,8 +1,8 @@
 import React, {useState, useRef, useEffect} from "react";
 import {motion} from "framer-motion";
 import {Scissors, RotateCcw, CheckCircle, X} from "lucide-react";
-import {Button} from "@/components/ui/button";
-import {Card, CardContent} from "@/components/ui/card";
+import {Button} from "../ui/button";
+import {Card, CardContent} from "../ui/card";
 
 export default function LassoTool({imageUrl, onSelectionComplete, onCancel}) {
   const canvasRef = useRef(null);

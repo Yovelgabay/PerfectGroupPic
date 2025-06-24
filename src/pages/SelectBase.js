@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-import {PhotoSession} from "@/entities/PhotoSession";
-import {createPageUrl} from "@/utils";
-import {Button} from "@/components/ui/button";
-import {Card, CardContent} from "@/components/ui/card";
+import {PhotoSession} from "../entities/PhotoSession";
+import {createPageUrl} from "../utils";
+import {Button} from "../components/ui/button";
+import {Card, CardContent} from "../components/ui/card";
 import {ArrowRight, CheckCircle, Star, Sparkles} from "lucide-react";
 import ProcessingOverlay from "../components/faces/ProcessingOverlay";
 import {motion} from "framer-motion";

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
-import { UploadFile } from "@/integrations/Core";
+import { UploadFile } from "../../integrations/Core";
 import { Camera, Upload, Plus, Image } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function PhotoUploader({ onPhotosUploaded }) {

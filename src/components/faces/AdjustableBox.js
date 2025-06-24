@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Maximize2, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../ui/button';
 
 export default function AdjustableBox({ face, onUpdate, onDelete, containerRef }) {
   const [dragStartPos, setDragStartPos] = useState(null);
