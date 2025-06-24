@@ -1,0 +1,100 @@
+{
+  "name": "PhotoSession",
+  "type": "object",
+  "properties": {
+    "session_name": {
+      "type": "string",
+      "description": "User-given name for this photo session"
+    },
+    "uploaded_photos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "is_base": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "description": "Array of uploaded photo URLs"
+    },
+    "base_photo_url": {
+      "type": "string",
+      "description": "URL of the selected base photo"
+    },
+    "detected_faces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "face_id": {
+            "type": "string"
+          },
+          "photo_url": {
+            "type": "string"
+          },
+          "coordinates": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "width": {
+                "type": "number"
+              },
+              "height": {
+                "type": "number"
+              }
+            },
+            "description": "Bounding box coordinates as percentages"
+          }
+        }
+      },
+      "description": "All detected and adjusted faces across all photos"
+    },
+    "final_composition": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/properties/detected_faces/items"
+      },
+      "description": "Map of base face ID to the chosen replacement face object"
+    },
+    "final_photo_url": {
+      "type": "string",
+      "description": "URL of the merged final photo"
+    },
+    "applied_filters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Applied style filters"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "uploading",
+        "detecting_faces",
+        "adjusting_boxes",
+        "selecting_base",
+        "face_selection",
+        "merging",
+        "completed"
+      ],
+      "default": "uploading"
+    }
+  },
+  "required": [
+    "session_name"
+  ]
+}
