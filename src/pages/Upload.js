@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "../utils";
 import { PhotoSession } from "../entities/PhotoSession";
-import { UploadFile } from "../integrations/Core";
 import { Camera, ArrowRight, Sparkles, AlertCircle } from "lucide-react"; // Removed X, consolidated AlertCircle
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";

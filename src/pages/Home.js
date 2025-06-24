@@ -10,7 +10,6 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   const [recentSessions, setRecentSessions] = useState([]);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     loadData();
@@ -19,8 +18,11 @@ export default function Home() {
   const loadData = async () => {
     try {
       const userData = await User.me();
-      setUser(userData);
-      const sessions = await PhotoSession.filter({ created_by: userData.email }, '-created_date', 3);
+      const sessions = await PhotoSession.filter(
+        { created_by: userData.email },
+        '-created_date',
+        3
+      );
       setRecentSessions(sessions);
     } catch (error) {
       // User not logged in - show guest experience
