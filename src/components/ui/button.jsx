@@ -1,7 +1,11 @@
 // src/components/ui/button.jsx
-export function Button({ children, ...props }) {
+export function Button({ children, disabled, className = "", ...props }) {
   return (
-    <button {...props} className={`px-3 py-2 rounded ${props.className || ""}`}>
+    <button
+      {...props}
+      disabled={disabled}
+      className={`px-3 py-2 rounded ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`}
+    >
       {children}
     </button>
   );

@@ -13,7 +13,7 @@ export default function Layout({ children, currentPageName }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-teal-50">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-teal-50 flex flex-col items-center">
       <style>
         {`
           :root {
@@ -29,9 +29,9 @@ export default function Layout({ children, currentPageName }) {
       </style>
       
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-xl border-b border-red-100 sticky top-0 z-50">
-        <div className="max-w-md mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+      <header className="bg-white/80 backdrop-blur-xl border-b border-red-100 sticky top-0 z-50 w-full">
+        <div className="max-w-md mx-auto px-4 py-4 flex justify-center">
+          <div className="flex items-center gap-3">
             <Link to={createPageUrl("Home")} className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-r from-red-400 to-teal-400 rounded-xl flex items-center justify-center shadow-lg">
                 <Sparkles className="w-5 h-5 text-white" />
@@ -41,8 +41,6 @@ export default function Layout({ children, currentPageName }) {
                 <p className="text-xs text-gray-500 -mt-1">AI Photo Magic</p>
               </div>
             </Link>
-            <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-            </div>
           </div>
         </div>
       </header>
