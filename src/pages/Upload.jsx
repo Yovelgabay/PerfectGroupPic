@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PhotoSession } from "@/entities/PhotoSession";
@@ -21,6 +21,13 @@ export default function Upload() {
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
+  const previewRef = useRef(null);
+
+  useEffect(() => {
+    if (uploadedPhotos.length > 0) {
+      previewRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [uploadedPhotos]);
 
   const handleCreateAndDetect = async () => {
     if (!sessionName.trim()) {
@@ -165,7 +172,7 @@ export default function Upload() {
         </Card>
 
         {uploadedPhotos.length > 0 && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <motion.div ref={previewRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <PhotoPreview photos={uploadedPhotos} setPhotos={setUploadedPhotos} />
           </motion.div>
         )}

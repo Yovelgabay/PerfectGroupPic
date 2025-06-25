@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { UploadFiles } from "@/integrations/Core";
 import { Camera, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,16 @@ export default function PhotoUploader({ photos, setPhotos }) {
   const [showCamera, setShowCamera] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    if (
+      photos.length < MAX_PHOTOS &&
+      errorMsg &&
+      errorMsg.startsWith("You can upload up to")
+    ) {
+      setErrorMsg(null);
+    }
+  }, [photos.length]);
 
   const handleFileUpload = async (files) => {
     if (!files || files.length === 0) return;
