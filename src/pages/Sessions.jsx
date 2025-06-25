@@ -67,8 +67,8 @@ export default function Sessions() {
           <p className="text-gray-600 text-sm">{sessions.length} photo sessions</p>
         </div>
         <Link to={createPageUrl("Upload")}>
-          <Button className="bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white rounded-xl">
-            <Plus className="w-4 h-4 mr-2" />
+          <Button className="bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white rounded-xl flex items-center justify-center gap-2">
+            <Plus className="w-4 h-4" />
             New
           </Button>
         </Link>
@@ -86,8 +86,8 @@ export default function Sessions() {
           <h3 className="text-lg font-semibold text-gray-900 mb-2">No sessions yet</h3>
           <p className="text-gray-600 mb-6">Create your first perfect group photo</p>
           <Link to={createPageUrl("Upload")}>
-            <Button className="bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white rounded-xl">
-              <Camera className="w-4 h-4 mr-2" />
+            <Button className="bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white rounded-xl flex items-center justify-center gap-2">
+              <Camera className="w-4 h-4" />
               Start Creating
             </Button>
           </Link>

@@ -171,18 +171,18 @@ export default function Preview() {
         <div className="space-y-3">
           <Button
             onClick={handleDownload}
-            className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl"
+            className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl flex items-center justify-center gap-2"
           >
-            <Download className="w-5 h-5 mr-2" />
+            <Download className="w-5 h-5" />
             Download Perfect Photo
           </Button>
 
           <Button
             onClick={() => setShowShareOptions(true)}
             variant="outline"
-            className="w-full border-2 border-gray-200 rounded-2xl py-4 font-semibold"
+            className="w-full border-2 border-gray-200 rounded-2xl py-4 font-semibold flex items-center justify-center gap-2"
           >
-            <Share2 className="w-5 h-5 mr-2" />
+            <Share2 className="w-5 h-5" />
             Share with Family
           </Button>
 
@@ -190,17 +190,17 @@ export default function Preview() {
             <Button
               onClick={handleCreateAnother}
               variant="outline"
-              className="flex-1 border-gray-200 rounded-xl"
+              className="flex-1 border-gray-200 rounded-xl flex items-center justify-center gap-2"
             >
-              <RotateCcw className="w-4 h-4 mr-2" />
+              <RotateCcw className="w-4 h-4" />
               Create Another
             </Button>
             <Button
               onClick={() => navigate(createPageUrl("Home"))}
               variant="outline"
-              className="flex-1 border-gray-200 rounded-xl"
+              className="flex-1 border-gray-200 rounded-xl flex items-center justify-center gap-2"
             >
-              <Home className="w-4 h-4 mr-2" />
+              <Home className="w-4 h-4" />
               Home
             </Button>
           </div>

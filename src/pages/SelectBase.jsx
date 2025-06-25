@@ -109,9 +109,9 @@ export default function SelectBase() {
       <div className="mt-6">
         <Button
           onClick={handleSelect}
-          className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl"
+          className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl flex items-center justify-center gap-2"
         >
-          <Star className="w-5 h-5 mr-2" />
+          <Star className="w-5 h-5" />
           Confirm Base Photo & Continue
         </Button>
       </div>

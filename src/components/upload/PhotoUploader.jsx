@@ -1,38 +1,67 @@
-import React, { useRef, useState } from "react";
-import { UploadFile } from "@/integrations/Core";
-import { Camera, Upload, Plus, Image } from "lucide-react";
+import React, { useRef, useState, useEffect } from "react";
+import { UploadFiles } from "@/integrations/Core";
+import { Camera, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import CameraCapture from "./CameraCapture";
 
-export default function PhotoUploader({ onPhotosUploaded }) {
+export default function PhotoUploader({ photos, setPhotos }) {
+  const MAX_PHOTOS = 5;
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
+  const [showCamera, setShowCamera] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadedPhotos, setUploadedPhotos] = useState([]);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    if (
+      photos.length < MAX_PHOTOS &&
+      errorMsg &&
+      errorMsg.startsWith("You can upload up to")
+    ) {
+      setErrorMsg(null);
+    }
+  }, [photos.length]);
 
   const handleFileUpload = async (files) => {
     if (!files || files.length === 0) return;
 
-    setIsUploading(true);
-    const newPhotos = [];
-
-    for (const file of Array.from(files)) {
-      try {
-        const { file_url } = await UploadFile({ file });
-        newPhotos.push({
-          url: file_url,
-          filename: file.name,
-          is_base: false
-        });
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      }
+    const remaining = MAX_PHOTOS - photos.length;
+    if (remaining <= 0) {
+      setErrorMsg(`You can upload up to ${MAX_PHOTOS} photos.`);
+      return;
     }
 
-    const allPhotos = [...uploadedPhotos, ...newPhotos];
-    setUploadedPhotos(allPhotos);
-    onPhotosUploaded(allPhotos);
-    setIsUploading(false);
+    const selected = Array.from(files).slice(0, remaining);
+    if (selected.length < files.length) {
+      setErrorMsg(`You can upload up to ${MAX_PHOTOS} photos.`);
+    } else {
+      setErrorMsg(null);
+    }
+
+    setIsUploading(true);
+    try {
+      const uploaded = await UploadFiles(selected);
+      const newPhotos = uploaded.map((f) => ({
+        url: f.url,
+        filename: f.filename,
+        is_base: false,
+      }));
+
+      const allPhotos = [...photos, ...newPhotos];
+      setPhotos(allPhotos);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+      if (error.message && error.message.includes("Failed to fetch")) {
+        setErrorMsg(
+          "Upload server not reachable. Did you run `npm run server`?"
+        );
+      } else {
+        setErrorMsg("Failed to upload photos");
+      }
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleBrowseClick = () => {
@@ -40,11 +69,24 @@ export default function PhotoUploader({ onPhotosUploaded }) {
   };
 
   const handleCameraClick = () => {
-    cameraInputRef.current?.click();
+    // On desktop, open our custom camera capture component
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      setShowCamera(true);
+    } else {
+      cameraInputRef.current?.click();
+    }
+  };
+
+  const handleCameraPhotos = (files) => {
+    setShowCamera(false);
+    handleFileUpload(files);
   };
 
   return (
     <div className="space-y-4">
+      {showCamera && (
+        <CameraCapture onClose={() => setShowCamera(false)} onPhotosCaptured={handleCameraPhotos} />
+      )}
       <input
         ref={fileInputRef}
         type="file"
@@ -99,6 +141,9 @@ export default function PhotoUploader({ onPhotosUploaded }) {
           </motion.div>
         )}
       </AnimatePresence>
+      {errorMsg && (
+        <p className="text-center text-sm text-red-600">{errorMsg}</p>
+      )}
 
       {/* Upload Instructions */}
       <div className="text-center text-xs text-gray-500 space-y-1">

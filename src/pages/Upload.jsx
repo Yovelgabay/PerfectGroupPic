@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PhotoSession } from "@/entities/PhotoSession";
-import { UploadFile } from "@/integrations/Core";
 import { Camera, ArrowRight, Sparkles, AlertCircle } from "lucide-react"; // Removed X, consolidated AlertCircle
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,10 +21,13 @@ export default function Upload() {
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
+  const previewRef = useRef(null);
 
-  const handlePhotosUploaded = (photos) => {
-    setUploadedPhotos(photos);
-  };
+  useEffect(() => {
+    if (uploadedPhotos.length > 0) {
+      previewRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [uploadedPhotos]);
 
   const handleCreateAndDetect = async () => {
     if (!sessionName.trim()) {
@@ -165,12 +167,12 @@ export default function Upload() {
             <p className="text-sm text-gray-600">Upload 2-5 similar shots</p>
           </CardHeader>
           <CardContent>
-            <PhotoUploader onPhotosUploaded={handlePhotosUploaded} />
+            <PhotoUploader photos={uploadedPhotos} setPhotos={setUploadedPhotos} />
           </CardContent>
         </Card>
 
         {uploadedPhotos.length > 0 && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <motion.div ref={previewRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <PhotoPreview photos={uploadedPhotos} setPhotos={setUploadedPhotos} />
           </motion.div>
         )}
@@ -182,7 +184,7 @@ export default function Upload() {
         <Button
           onClick={handleCreateAndDetect}
           disabled={isProcessing || uploadedPhotos.length < 2 || !sessionName.trim()}
-          className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl"
+          className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl flex items-center justify-center gap-2"
         >
           {isProcessing ? (
             <div className="flex items-center gap-2">
@@ -191,7 +193,7 @@ export default function Upload() {
             </div>
           ) : (
             <>
-              <ArrowRight className="w-5 h-5 mr-2" />
+              <ArrowRight className="w-5 h-5" />
               Detect Faces
             </>
           )}
