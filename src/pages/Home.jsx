@@ -72,8 +72,8 @@ export default function Home() {
         </p>
 
         <Link to={createPageUrl("Upload")}>
-          <Button className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl transition-all duration-300 transform hover:scale-105">
-            <Camera className="w-5 h-5 mr-2" />
+          <Button className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+            <Camera className="w-5 h-5" />
             Start Creating Magic
           </Button>
         </Link>

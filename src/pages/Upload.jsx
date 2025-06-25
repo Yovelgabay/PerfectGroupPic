@@ -22,10 +22,6 @@ export default function Upload() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
 
-  const handlePhotosUploaded = (photos) => {
-    setUploadedPhotos(photos);
-  };
-
   const handleCreateAndDetect = async () => {
     if (!sessionName.trim()) {
       setError("Please enter a session name.");
@@ -164,7 +160,7 @@ export default function Upload() {
             <p className="text-sm text-gray-600">Upload 2-5 similar shots</p>
           </CardHeader>
           <CardContent>
-            <PhotoUploader onPhotosUploaded={handlePhotosUploaded} />
+            <PhotoUploader photos={uploadedPhotos} setPhotos={setUploadedPhotos} />
           </CardContent>
         </Card>
 
@@ -181,7 +177,7 @@ export default function Upload() {
         <Button
           onClick={handleCreateAndDetect}
           disabled={isProcessing || uploadedPhotos.length < 2 || !sessionName.trim()}
-          className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl"
+          className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl flex items-center justify-center gap-2"
         >
           {isProcessing ? (
             <div className="flex items-center gap-2">
@@ -190,7 +186,7 @@ export default function Upload() {
             </div>
           ) : (
             <>
-              <ArrowRight className="w-5 h-5 mr-2" />
+              <ArrowRight className="w-5 h-5" />
               Detect Faces
             </>
           )}

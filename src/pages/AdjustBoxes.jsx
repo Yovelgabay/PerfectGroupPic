@@ -146,18 +146,18 @@ export default function AdjustBoxes() {
         <Button
           onClick={handleAddFace}
           variant="outline"
-          className="w-full border-2 border-dashed border-red-300 hover:border-red-400 hover:bg-red-50 text-red-600 font-medium py-3 rounded-xl"
+          className="w-full border-2 border-dashed border-red-300 hover:border-red-400 hover:bg-red-50 text-red-600 font-medium py-3 rounded-xl flex items-center justify-center gap-2"
         >
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-4 h-4" />
           Add Face Box
         </Button>
       </div>
 
       <Button
         onClick={handleNext}
-        className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl"
+        className="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-semibold py-4 rounded-2xl shadow-xl flex items-center justify-center gap-2"
       >
-        <ArrowRight className="w-5 h-5 mr-2" />
+        <ArrowRight className="w-5 h-5" />
         {currentPhotoIndex < session.uploaded_photos.length - 1
           ? "Next Photo"
           : "Finish Adjusting"}
