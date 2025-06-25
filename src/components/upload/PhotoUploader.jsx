@@ -10,12 +10,14 @@ export default function PhotoUploader({ onPhotosUploaded }) {
   const cameraInputRef = useRef(null);
   const [showCamera, setShowCamera] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
 
   const handleFileUpload = async (files) => {
     if (!files || files.length === 0) return;
 
     setIsUploading(true);
+    setErrorMsg(null);
     try {
       const uploaded = await UploadFiles(Array.from(files));
       const newPhotos = uploaded.map((f) => ({
@@ -29,6 +31,7 @@ export default function PhotoUploader({ onPhotosUploaded }) {
       onPhotosUploaded(allPhotos);
     } catch (error) {
       console.error("Error uploading files:", error);
+      setErrorMsg("Failed to upload photos");
     } finally {
       setIsUploading(false);
     }
@@ -111,6 +114,9 @@ export default function PhotoUploader({ onPhotosUploaded }) {
           </motion.div>
         )}
       </AnimatePresence>
+      {errorMsg && (
+        <p className="text-center text-sm text-red-600">{errorMsg}</p>
+      )}
 
       {/* Upload Instructions */}
       <div className="text-center text-xs text-gray-500 space-y-1">

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function PhotoPreview({ photos, setPhotos }) {
   const removePhoto = (indexToRemove) => {
+    URL.revokeObjectURL(photos[indexToRemove].url);
     const newPhotos = photos.filter((_, index) => index !== indexToRemove);
     setPhotos(newPhotos);
   };
