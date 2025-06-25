@@ -19,6 +19,12 @@ export async function UploadFiles(files) {
   return data.files;
 }
 
+// Legacy single-file uploader API
+export const UploadFile = async (file) => {
+  const [result] = await UploadFiles([file]);
+  return result;
+};
+
 export async function InvokeLLM({ prompt, file_urls, response_json_schema }) {
   // TODO: חיבור ל-OpenAI / Anthropic / HuggingFace וכו'
   // כרגע מחזיר תוצאה דמה ללא פייסים כדי שהקוד ירוץ
