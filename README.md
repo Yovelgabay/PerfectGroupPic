@@ -23,9 +23,11 @@ The project now includes a simple Express server for handling photo uploads.
    ```bash
    npm run server
    ```
+   The server uses CORS so it can accept requests from the Vite dev server.
 3. In a separate terminal start the Vite dev server:
    ```bash
    npm run dev
    ```
 
 Uploaded files will be stored in the `uploads/` directory and served from `/uploads/*`.
+When running `npm run dev` the Vite dev server proxies API and uploads requests to the backend so the app can simply call `/api/upload`.

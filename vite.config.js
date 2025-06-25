@@ -4,6 +4,12 @@ import { fileURLToPath, URL } from 'node:url';   // ⬅️ needed for Windows to
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3001',
+      '/uploads': 'http://localhost:3001'
+    }
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)) //  @  →  /absolute/path/to/src

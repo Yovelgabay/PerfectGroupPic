@@ -3,6 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,12 +21,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+app.use(cors());
+
 app.use('/uploads', express.static(uploadFolder));
 
 app.post('/api/upload', upload.array('photos'), (req, res) => {
   const files = req.files || [];
-  const response = files.map(f => ({
-    url: `/uploads/${f.filename}`,
+  const base = `${req.protocol}://${req.get('host')}`;
+  const response = files.map((f) => ({
+    url: `${base}/uploads/${f.filename}`,
     filename: f.originalname,
   }));
   res.json({ files: response });
