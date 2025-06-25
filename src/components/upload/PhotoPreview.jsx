@@ -1,10 +1,10 @@
 import React from "react";
-import { X, CheckCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { motion, AnimatePresence } from "framer-motion";
+import {X, CheckCircle} from "lucide-react";
+import {Button} from "@/components/ui/button";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {motion, AnimatePresence} from "framer-motion";
 
-export default function PhotoPreview({ photos, setPhotos }) {
+export default function PhotoPreview({photos, setPhotos}) {
   const removePhoto = (indexToRemove) => {
     URL.revokeObjectURL(photos[indexToRemove].url);
     const newPhotos = photos.filter((_, index) => index !== indexToRemove);
@@ -20,7 +20,9 @@ export default function PhotoPreview({ photos, setPhotos }) {
             Uploaded Photos ({photos.length})
           </span>
           {photos.length >= 2 && (
-            <span className="text-xs text-green-600 font-normal">Ready to proceed!</span>
+            <span className="text-xs text-green-600 font-normal">
+              Ready to proceed!
+            </span>
           )}
         </CardTitle>
       </CardHeader>
@@ -30,9 +32,9 @@ export default function PhotoPreview({ photos, setPhotos }) {
             {photos.map((photo, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
+                initial={{opacity: 0, scale: 0.8}}
+                animate={{opacity: 1, scale: 1}}
+                exit={{opacity: 0, scale: 0.8}}
                 className="relative aspect-square rounded-xl overflow-hidden bg-gray-100"
               >
                 <img
@@ -42,18 +44,20 @@ export default function PhotoPreview({ photos, setPhotos }) {
                 />
                 <Button
                   onClick={() => removePhoto(index)}
-                  className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white text-black hover:bg-gray-100"
+                  className="absolute top-2 px-0 py-0 right-2 w-6 h-6 rounded-full bg-white text-black hover:bg-gray-100"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="w-3 h-3 mx-auto" />
                 </Button>
                 <div className="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm rounded-lg px-2 py-1">
-                  <span className="text-xs text-white font-medium">#{index + 1}</span>
+                  <span className="text-xs text-white font-medium">
+                    #{index + 1}
+                  </span>
                 </div>
               </motion.div>
             ))}
           </AnimatePresence>
         </div>
-        
+
         {photos.length < 2 && (
           <p className="text-center text-sm text-gray-500 mt-4">
             Upload at least 2 photos to continue
