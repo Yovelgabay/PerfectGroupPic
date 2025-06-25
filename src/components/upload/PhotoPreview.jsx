@@ -19,7 +19,7 @@ export default function PhotoPreview({ photos, setPhotos }) {
             Uploaded Photos ({photos.length})
           </span>
           {photos.length >= 2 && (
-            <span className="text-xs text-green-600 font-normal">Ready to continue!</span>
+            <span className="text-xs text-green-600 font-normal">Ready to proceed!</span>
           )}
         </CardTitle>
       </CardHeader>

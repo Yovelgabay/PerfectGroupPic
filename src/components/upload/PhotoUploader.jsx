@@ -1,12 +1,14 @@
 import React, { useRef, useState } from "react";
 import { UploadFiles } from "@/integrations/Core";
-import { Camera, Upload, Plus, Image } from "lucide-react";
+import { Camera, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import CameraCapture from "./CameraCapture";
 
 export default function PhotoUploader({ onPhotosUploaded }) {
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
+  const [showCamera, setShowCamera] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
 
@@ -37,11 +39,24 @@ export default function PhotoUploader({ onPhotosUploaded }) {
   };
 
   const handleCameraClick = () => {
-    cameraInputRef.current?.click();
+    // On desktop, open our custom camera capture component
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      setShowCamera(true);
+    } else {
+      cameraInputRef.current?.click();
+    }
+  };
+
+  const handleCameraPhotos = (files) => {
+    setShowCamera(false);
+    handleFileUpload(files);
   };
 
   return (
     <div className="space-y-4">
+      {showCamera && (
+        <CameraCapture onClose={() => setShowCamera(false)} onPhotosCaptured={handleCameraPhotos} />
+      )}
       <input
         ref={fileInputRef}
         type="file"
