@@ -1,11 +1,22 @@
 // src/integrations/Core.js
-export async function UploadFile(file) {
-  // TODO: חבר ל-backend אמיתי
-  // מחזיר אובייקט דמה בדומה למה ש-Upload.jsx מצפה
-  return {
-    url: URL.createObjectURL(file),
-    filename: file.name,
-  };
+// Upload an array of files to the backend
+export async function UploadFiles(files) {
+  const formData = new FormData();
+  for (const file of files) {
+    formData.append('photos', file);
+  }
+
+  const res = await fetch('http://localhost:3001/api/upload', {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to upload files');
+  }
+
+  const data = await res.json();
+  return data.files;
 }
 
 export async function InvokeLLM({ prompt, file_urls, response_json_schema }) {

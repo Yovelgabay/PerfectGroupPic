@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { UploadFile } from "@/integrations/Core";
+import { UploadFiles } from "@/integrations/Core";
 import { Camera, Upload, Plus, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,25 +14,22 @@ export default function PhotoUploader({ onPhotosUploaded }) {
     if (!files || files.length === 0) return;
 
     setIsUploading(true);
-    const newPhotos = [];
+    try {
+      const uploaded = await UploadFiles(Array.from(files));
+      const newPhotos = uploaded.map((f) => ({
+        url: f.url,
+        filename: f.filename,
+        is_base: false,
+      }));
 
-    for (const file of Array.from(files)) {
-      try {
-        const { file_url } = await UploadFile({ file });
-        newPhotos.push({
-          url: file_url,
-          filename: file.name,
-          is_base: false
-        });
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      }
+      const allPhotos = [...uploadedPhotos, ...newPhotos];
+      setUploadedPhotos(allPhotos);
+      onPhotosUploaded(allPhotos);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    } finally {
+      setIsUploading(false);
     }
-
-    const allPhotos = [...uploadedPhotos, ...newPhotos];
-    setUploadedPhotos(allPhotos);
-    onPhotosUploaded(allPhotos);
-    setIsUploading(false);
   };
 
   const handleBrowseClick = () => {
