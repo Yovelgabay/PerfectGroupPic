@@ -31,7 +31,13 @@ export default function PhotoUploader({ onPhotosUploaded }) {
       onPhotosUploaded(allPhotos);
     } catch (error) {
       console.error("Error uploading files:", error);
-      setErrorMsg("Failed to upload photos");
+      if (error.message && error.message.includes("Failed to fetch")) {
+        setErrorMsg(
+          "Upload server not reachable. Did you run `npm run server`?"
+        );
+      } else {
+        setErrorMsg("Failed to upload photos");
+      }
     } finally {
       setIsUploading(false);
     }

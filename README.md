@@ -31,3 +31,4 @@ The project now includes a simple Express server for handling photo uploads.
 
 Uploaded files will be stored in the `uploads/` directory and served from `/uploads/*`.
 When running `npm run dev` the Vite dev server proxies API and uploads requests to the backend so the app can simply call `/api/upload`.
+If uploads fail with a "Failed to fetch" error, ensure the backend is running by executing `npm run server` in another terminal.
