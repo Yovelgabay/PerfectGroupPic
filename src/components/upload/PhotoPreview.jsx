@@ -42,9 +42,7 @@ export default function PhotoPreview({ photos, setPhotos }) {
                 />
                 <Button
                   onClick={() => removePhoto(index)}
-                  size="icon"
-                  variant="destructive"
-                  className="absolute top-2 right-2 w-6 h-6 rounded-full"
+                  className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white text-black hover:bg-gray-100"
                 >
                   <X className="w-3 h-3" />
                 </Button>
