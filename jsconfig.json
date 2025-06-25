@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"] //  ←  זה מה שה-CLI צריך
+    }
+  }
+}
