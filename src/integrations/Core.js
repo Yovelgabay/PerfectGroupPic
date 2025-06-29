@@ -25,6 +25,21 @@ export const UploadFile = async (file) => {
   return result;
 };
 
+// Detect faces in uploaded photos via our API
+export async function detectFaces(photoUrls) {
+  const res = await fetch('/api/detect-faces', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ photoUrls })
+  });
+
+  if (!res.ok) {
+    throw new Error('Face detection failed');
+  }
+
+  return res.json();
+}
+
 // Call a face recognition API (e.g. AWS Rekognition, Face++, Azure)
 // This implementation uses a generic REST endpoint with placeholder
 // credentials to illustrate how to integrate a real service.

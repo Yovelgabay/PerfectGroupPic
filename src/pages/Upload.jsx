@@ -9,8 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert"; // Consolidated Alert, AlertDescription
 import { motion, AnimatePresence } from "framer-motion";
-import { InvokeLLM } from "@/integrations/Core";
-import FaceHighlight from "../components/faces/FaceHighlight";
+import { detectFaces } from "@/integrations/Core";
 
 import PhotoUploader from "../components/upload/PhotoUploader";
 import PhotoPreview from "../components/upload/PhotoPreview";
@@ -53,9 +52,7 @@ export default function Upload() {
       });
 
       // Step 2: Detect faces using the integration
-      const result = await InvokeLLM({
-        file_urls: uploadedPhotos.map((p) => p.url)
-      });
+      const result = await detectFaces(uploadedPhotos.map((p) => p.url));
 
       if (!result.faces || result.faces.length === 0) {
         throw new Error("No faces detected in any of the photos. Please try again with clearer images.");
