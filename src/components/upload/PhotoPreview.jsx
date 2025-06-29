@@ -3,8 +3,9 @@ import {X, CheckCircle} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {motion, AnimatePresence} from "framer-motion";
+import FaceHighlight from "../faces/FaceHighlight";
 
-export default function PhotoPreview({photos, setPhotos}) {
+export default function PhotoPreview({photos, setPhotos, detectedFaces = []}) {
   const removePhoto = (indexToRemove) => {
     URL.revokeObjectURL(photos[indexToRemove].url);
     const newPhotos = photos.filter((_, index) => index !== indexToRemove);
@@ -42,6 +43,11 @@ export default function PhotoPreview({photos, setPhotos}) {
                   alt={`Upload ${index + 1}`}
                   className="w-full h-full object-cover"
                 />
+                {detectedFaces
+                  .filter((f) => f.photo_url === photo.url)
+                  .map((face) => (
+                    <FaceHighlight key={face.face_id} face={face} />
+                  ))}
                 <Button
                   onClick={() => removePhoto(index)}
                   className="absolute top-2 px-0 py-0 right-2 w-6 h-6 rounded-full bg-white text-black hover:bg-gray-100"
