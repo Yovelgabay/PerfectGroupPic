@@ -11,11 +11,17 @@ export async function UploadFiles(files) {
     body: formData
   });
 
-  if (!res.ok) {
-    throw new Error('Failed to upload files');
+  let data;
+  try {
+    data = await res.json();
+  } catch (_err) {
+    // ignore JSON parse errors; we'll handle below
   }
 
-  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data?.error || 'Failed to upload files');
+  }
+
   return data.files;
 }
 
