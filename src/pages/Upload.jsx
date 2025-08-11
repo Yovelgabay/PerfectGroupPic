@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { createPageUrl } from "@/utils";
 import { PhotoSession } from "@/entities/PhotoSession";
 import { Camera, ArrowRight, Sparkles, AlertCircle } from "lucide-react"; // Removed X, consolidated AlertCircle
 import { Button } from "@/components/ui/button";
@@ -16,7 +14,6 @@ import PhotoPreview from "../components/upload/PhotoPreview";
 import ProcessingOverlay from "../components/faces/ProcessingOverlay";
 
 export default function Upload() {
-  const navigate = useNavigate();
   const [sessionName, setSessionName] = useState("");
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -60,13 +57,13 @@ export default function Upload() {
 
       setDetectedFaces(result.faces);
 
-      // Step 3: Update session with detected faces and navigate
+      // Step 3: Update session with detected faces
       await PhotoSession.update(session.id, {
         detected_faces: result.faces,
         status: "adjusting_boxes"
       });
-      
-      navigate(createPageUrl(`AdjustBoxes?session=${session.id}`));
+
+      setIsProcessing(false);
 
     } catch (err) {
       console.error("Error during session creation and face detection:", err);
@@ -127,6 +124,7 @@ export default function Upload() {
               photos={uploadedPhotos}
               setPhotos={setUploadedPhotos}
               detectedFaces={detectedFaces}
+              setDetectedFaces={setDetectedFaces}
             />
           </motion.div>
         )}

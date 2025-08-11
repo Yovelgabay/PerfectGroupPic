@@ -5,7 +5,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {motion, AnimatePresence} from "framer-motion";
 import FaceHighlight from "../faces/FaceHighlight";
 
-export default function PhotoPreview({photos, setPhotos, detectedFaces = []}) {
+export default function PhotoPreview({photos, setPhotos, detectedFaces = [], setDetectedFaces}) {
   const removePhoto = (indexToRemove) => {
     URL.revokeObjectURL(photos[indexToRemove].url);
     const newPhotos = photos.filter((_, index) => index !== indexToRemove);
@@ -46,7 +46,15 @@ export default function PhotoPreview({photos, setPhotos, detectedFaces = []}) {
                 {detectedFaces
                   .filter((f) => f.photo_url === photo.url)
                   .map((face) => (
-                    <FaceHighlight key={face.face_id} face={face} />
+                    <FaceHighlight
+                      key={face.face_id}
+                      face={face}
+                      onChange={(updated) =>
+                        setDetectedFaces((prev) =>
+                          prev.map((f) => (f.face_id === updated.face_id ? updated : f))
+                        )
+                      }
+                    />
                   ))}
                 <Button
                   onClick={() => removePhoto(index)}
