@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { createPageUrl } from "@/utils";
 import { PhotoSession } from "@/entities/PhotoSession";
 import { Camera, ArrowRight, Sparkles, AlertCircle } from "lucide-react"; // Removed X, consolidated AlertCircle
 import { Button } from "@/components/ui/button";
@@ -9,18 +7,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert"; // Consolidated Alert, AlertDescription
 import { motion, AnimatePresence } from "framer-motion";
-import { InvokeLLM } from "@/integrations/Core";
+import { detectFaces } from "@/integrations/Core";
 
 import PhotoUploader from "../components/upload/PhotoUploader";
 import PhotoPreview from "../components/upload/PhotoPreview";
 import ProcessingOverlay from "../components/faces/ProcessingOverlay";
 
 export default function Upload() {
-  const navigate = useNavigate();
   const [sessionName, setSessionName] = useState("");
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
+  const [detectedFaces, setDetectedFaces] = useState([]);
   const previewRef = useRef(null);
 
   useEffect(() => {
@@ -50,73 +48,22 @@ export default function Upload() {
         status: "detecting_faces"
       });
 
-      // Step 2: Detect faces in all photos
-      const allFaces = [];
-      // The `faceSchema` from previous turn is integrated directly into the InvokeLLM call's response_json_schema.
+      // Step 2: Detect faces using the integration
+      const result = await detectFaces(uploadedPhotos.map((p) => p.url));
 
-      for (const photo of uploadedPhotos) {
-        const result = await InvokeLLM({
-          prompt: `Analyze this image and detect all human faces. Return bounding boxes as percentages.`,
-          file_urls: [photo.url],
-          response_json_schema: {
-            type: "object",
-            properties: {
-              faces: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    box: {
-                      type: "object",
-                      properties: {
-                        x_min: { type: "number" },
-                        y_min: { type: "number" },
-                        width: { type: "number" },
-                        height: { type: "number" },
-                      },
-                      required: ["x_min", "y_min", "width", "height"], // Preserving required for completeness
-                    },
-                  },
-                  required: ["box"], // Preserving required for completeness
-                },
-              },
-            },
-            required: ["faces"], // Preserving required for completeness
-          },
-        });
-
-        if (result && result.faces && Array.isArray(result.faces)) {
-          result.faces.forEach((face, index) => {
-            // Ensure coordinates are numbers and within 0-1 range if they are percentages
-            const x = parseFloat(face.box.x_min);
-            const y = parseFloat(face.box.y_min);
-            const width = parseFloat(face.box.width);
-            const height = parseFloat(face.box.height);
-
-            if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
-              allFaces.push({
-                face_id: `${photo.filename}-face-${index}`,
-                photo_url: photo.url,
-                coordinates: { x, y, width, height },
-              });
-            } else {
-              console.warn("Invalid face coordinates received for photo:", photo.url, face);
-            }
-          });
-        }
-      }
-
-      if (allFaces.length === 0) {
+      if (!result.faces || result.faces.length === 0) {
         throw new Error("No faces detected in any of the photos. Please try again with clearer images.");
       }
 
-      // Step 3: Update session with detected faces and navigate
+      setDetectedFaces(result.faces);
+
+      // Step 3: Update session with detected faces
       await PhotoSession.update(session.id, {
-        detected_faces: allFaces,
+        detected_faces: result.faces,
         status: "adjusting_boxes"
       });
-      
-      navigate(createPageUrl(`AdjustBoxes?session=${session.id}`));
+
+      setIsProcessing(false);
 
     } catch (err) {
       console.error("Error during session creation and face detection:", err);
@@ -173,7 +120,12 @@ export default function Upload() {
 
         {uploadedPhotos.length > 0 && (
           <motion.div ref={previewRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <PhotoPreview photos={uploadedPhotos} setPhotos={setUploadedPhotos} />
+            <PhotoPreview
+              photos={uploadedPhotos}
+              setPhotos={setUploadedPhotos}
+              detectedFaces={detectedFaces}
+              setDetectedFaces={setDetectedFaces}
+            />
           </motion.div>
         )}
 
